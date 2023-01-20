@@ -166,7 +166,9 @@ router.post("/", auth.required, function(req, res, next) {
       }
 
       var item = new Item(req.body.item);
-      item.image = await getAIImage(item.title);
+      if (item.image.trim() === ""){
+        item.image = await getAIImage(item.title);
+      }
       item.seller = user;
 
       return item.save().then(function() {
