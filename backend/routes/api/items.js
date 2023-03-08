@@ -32,7 +32,7 @@ router.param("item", function(req, res, next, slug) {
   Item.findOne({ slug: slug })
     .populate("seller")
     .then(function(item) {
-      if (!item?.image || item.image === "") {
+      if (!item) {
         return res.sendStatus(404);
       }
 
@@ -167,7 +167,7 @@ router.post("/", auth.required, function(req, res, next) {
 
       var item = new Item(req.body.item);
 
-      if (item.image.trim() === ""){
+      if (!item?.image || item.image === ""){
         item.image = await getAIImage(item.title);
       }
       item.seller = user;
