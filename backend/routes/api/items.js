@@ -32,7 +32,7 @@ router.param("item", function(req, res, next, slug) {
   Item.findOne({ slug: slug })
     .populate("seller")
     .then(function(item) {
-      if (!item) {
+      if (!item?.image || item.image === "") {
         return res.sendStatus(404);
       }
 
